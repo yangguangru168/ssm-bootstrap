@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hand.mapper.CustomerMapper">
+
+
+    <select id="userNameSelect" parameterType="String" resultType="com.hand.entity.Customer">
+        select first_name as firstName ,last_name as lastName from customer where first_name = #{firstName}
+    </select>
+
+    <resultMap type="com.hand.entity.Customer" id="getCustomerAlls">
+        <id column="customer_id" property="customerId"/>
+        <result column="first_name" property="firstName"/>
+        <result column="last_name" property="lastName"/>
+        <result column="email" property="email"/>
+        <result column="address_id" property="addressId"/>
+        <result column="last_update" property="lastUpdate"/>
+        <association  property="address" javaType="com.hand.entity.Address" >
+            <id column="address_id" property="addressId"/>
+            <result column="address" property="address"/>
+        </association >
+    </resultMap>
+    <select id="customerSelectAlls" resultMap="getCustomerAlls">
+        select *  from customer ct ,address ar where ct.address_id = ar.address_id
+    </select>
+
+    <select id="customerInsert" parameterType="com.hand.entity.Customer">
+        insert into customer (first_name,last_name,email,last_update,address_id)
+        values (#{firstName},#{lastName},#{email},#{lastUpdate},#{addressId})
+    </select>
+
+    <select id="customerUpdate" parameterType="com.hand.entity.Customer">
+        update customer set first_name =#{firstName},last_name = #{lastName},last_update = #{lastUpdate}
+         where customer_id = #{customerId}
+    </select>
+
+    <select id="getCustById" parameterType="Integer" resultType="com.hand.entity.Customer">
+        select first_name as firstName ,last_name as lastName,email as email from  customer where customer_id = #{customerId}
+    </select>
+
+    <select id="customerDelete" parameterType="String">
+        delete from customer where customer_id = #{customerId}
+    </select>
+
+</mapper>

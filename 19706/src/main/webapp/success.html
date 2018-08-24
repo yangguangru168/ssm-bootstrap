@@ -1,0 +1,562 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" cntent="text/html;charset=UTF-8">
+</head>
+<title>销售管理系统</title>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="/ssm/loginstyle/css/index.css" type="text/css" rel="stylesheet">
+<body>
+<!--导航-->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" style="color: white" class="navbar-brand" id="usermeValue"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse" style="margin-left: 1050px">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#" id="exit" style="font-size: 15px">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--编辑模态框-->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="updateTile">更新信息</h4>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">First Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="firstName" class="form-control" id="update_firstName_input"
+                               placeholder="请输入First Name">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Last Nmae</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="lastName" class="form-control" id="update_lasttName_input"
+                               placeholder="请输入Last Nmae">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="email" class="form-control" id="update_email_input"
+                               placeholder="请输入emaile">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Address</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" name="addressId" id="update_id">
+                        </select>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="update_btn">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增模态框-->
+<div class="modal fade" id="filmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">基本信息</h4>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">First Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="firstName" class="form-control" id="firstNmae_input"
+                               placeholder="请输入First Name">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Last Nmae</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="lastName" class="form-control" id="lastName_input"
+                               placeholder="请输入Last Nmae">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="email" class="form-control" id="email_input" placeholder="请输入emaile">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Address</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" name="addressId" id="langId">
+                        </select>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="affirm_data">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--左侧栏-->
+<div class="container col-md-2">
+    <div class="row">
+        <div class="col-md-10">
+            <h3>客户管理</h3>
+            <HR align=center width=1300 color=#987cb9 SIZE=1>
+        </div>
+    </div>
+    <div style="margin-top: 0px">
+        <button class="btn btn-default" id="customer_btn" style="width: 130px">
+            Customer管理
+        </button>
+        <div>
+            <hr style="width:100px;margin-left: 15px">
+        </div>
+        <button class="btn btn-default" id="film_btn" style="width: 130px">
+            Film 管理
+        </button>
+    </div>
+</div>
+<!--右侧栏-->
+<div class="container col-md-10" id="customer" style="border: 1px">
+    <!--按钮-->
+    <div class="row" id="btn_btn" style="margin-top: 76px;margin-left: -130px">
+        <div class="col-md-2 col-md-offset-1">
+            <button class="btn btn-primary glyphicon glyphicon-plus" id="add_film_modal">新增</button>
+            <button class="btn btn-danger glyphicon glyphicon-trash" id="delete_alls_btn">批量删除</button>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="row">
+        <table class="table table-bordered" id="film_table">
+            <thead>
+            <tr>
+                <td><input type="checkbox" class="check_alls"></td>
+                <th>FirstName</th>
+                <th>LastNmae</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>CustomerId</th>
+                <th>LastUpDate</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <!--嵌套数据表-->
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!--分页信息-->
+    <div class="row" id="pageImage" style="margin-left: -260px">
+        <div class="col-md-4 col-md-offset-2" id="page_info_area"></div>
+    </div>
+    <!--分页导航条-->
+    <div id="navigation_bar">
+        <div id="page_info_nav" style="margin-left: 600px"></div>
+        <div id="skip" style="margin-top: -50px;margin-left: 1018px">
+            <input type="text" id="goInput" style="width: 30px">
+            <button type="button" id="goBtn">跳转</button>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    var totalAll, current;
+
+    /*ajax请求*/
+    $(function () {
+        to_page(1);
+        getUsername();
+    });
+
+    /*点击Customer按钮切换界面*/
+    $("#customer_btn").click(function () {
+        $("#customer").show();
+    });
+    $("#film_btn").click(function () {
+        $("#customer").hide();
+    });
+
+    /*获取登陆用户名*/
+    function getUsername() {
+        var url = window.location.search;
+        if (url.indexOf("?") != -1) {
+            var username = url.substr(url.indexOf("=") + 1)
+        }
+        $("#usermeValue").html("欢迎  " + username);
+        return username;
+    }
+
+    /*主页面数据加载*/
+    function to_page(pn) {
+        $.ajax({
+            url: "./cust/find",
+            data: "pn=" + pn,
+            type: "get",
+            success: function (result) {
+                console.log(result);
+                film_table(result);
+                page_info(result);
+                pageInfo_nav(result);
+            }
+        })
+    }
+
+    /*显示列表*/
+    function film_table(result) {
+        /*创建之前清空*/
+        $("#film_table tbody").empty();
+        var film_list = result.map.customer.list;
+        $.each(film_list, function (index, item) {
+            var checkBoxTD = $("<td> <input type='checkbox' class='checkbox_id'/></td>");
+            var firstNameTD = $("<td></td>").append(item.firstName).attr("style:width", "10px");
+            var lastNameTD = $("<td></td>").append(item.lastName);
+            var addressTD = $("<td></td>").append(item.address.address);
+            var emailTD = $("<td></td>").append(item.email);
+            var customerIdTD = $("<td></td>").append(item.customerId);
+            var lastUpdateTD = $("<td></td>").append(item.lastUpdate);
+            var editTD = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-pencil").append("编辑"));
+            /*为每一个编辑按钮添加edit_id*/
+            editTD.attr("edit_id", item.customerId);
+            var deleteTD = $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-trash").append("删除"));
+            deleteTD.attr("delete_id", item.customerId);
+            var ediDelete = $("<td></td>").append(editTD).append("  ").append(deleteTD);
+            $("<tr></tr>").append(checkBoxTD).append(firstNameTD).append(lastNameTD).append(addressTD).append(emailTD).append(customerIdTD).append(lastUpdateTD).append(ediDelete).appendTo("#film_table tbody");
+        })
+    }
+
+    /*分页信息*/
+    function page_info(result) {
+        $("#page_info_area").empty();
+        $("#page_info_area").append
+        ("当前" + result.map.customer.pageNum + "页" + "," +
+            "总共" + result.map.customer.pages + "有页" + "," + "有" + result.map.customer.total + "条记录");
+        totalAll = result.map.customer.total;
+        current = result.map.customer.pageNum;
+    }
+
+    /*分页导航栏*/
+    function pageInfo_nav(result) {
+        $("#page_info_nav").empty();
+        var ul = $("<ul></ul>").addClass("pagination");
+        var pageFirst = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+        var lastPage = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+        if (result.map.customer.hasPreviousPage == false) {
+            pageFirst.addClass("disabled");
+            lastPage.addClass("disabled");
+        } else {
+            pageFirst.click(function () {
+                to_page(1);
+            });
+            lastPage.click(function () {
+                to_page((result.map.customer.pageNum) - 1);
+            })
+        }
+        var pageLast = $("<li></li>").append($("<a></a>").attr("href", "#").append("末页"));
+        var endPage = $("<li></li>").append($("<a></a>").attr("href", "#").append("&raquo;"));
+        if (result.map.customer.hasNextPage == false) {
+            pageLast.addClass("disabled");
+            endPage.addClass("disabled");
+        } else {
+            pageLast.click(function () {
+                to_page(result.map.customer.pages);
+            });
+            endPage.click(function () {
+                to_page((result.map.customer.pageNum) + 1);
+            })
+        }
+        ul.append(pageFirst).append(lastPage);
+        $.each(result.map.customer.navigatepageNums, function (index, navList) {
+            var pageIndex = $("<li></li>").append($("<a></a>").append(navList).attr("href", "#"));
+            /*判断当前页面是否等于导航栏的数字，true则添加样式高亮*/
+            if (result.map.customer.pageNum == navList) {
+                pageIndex.addClass("active");
+            }
+            /*点击按钮触发ajax重新请求*/
+            pageIndex.click(function () {
+                to_page(navList);
+            });
+            ul.append(pageIndex);
+        });
+        ul.append(endPage).append(pageLast);
+        var nav = $("<nav></nav>").append(ul);
+        nav.appendTo("#page_info_nav");
+    }
+
+    /*分页页面跳转*/
+    $("#goBtn").click(function () {
+        to_page($("#goInput").val());
+    });
+    /*新增弹出form,以及每次打开重置表单*/
+    $("#add_film_modal").click(function () {
+        clean("#filmModal form");
+        getLanguage("#langId");
+        $('#filmModal').modal({
+            backdrop: "static"
+        })
+    });
+
+    /*获取Address的全部值，并填充到选择列表里面*/
+    function getLanguage(ele) {
+        $(ele).empty();
+        $.ajax({
+            url: "./cust/findAdderss",
+            type: "get",
+            success: function (result) {
+                /*每次获取之前先清空*/
+                var list = result.map.addr;
+                $.each(list, function (index, item) {
+                    var option = $("<option></option>").append(this.address).attr("value", this.addressId);
+                    option.appendTo(ele);
+                })
+            }
+        })
+    }
+
+    /*校验邮箱表单的方法*/
+    function show_form_varify(id, status, msg) {
+        $(id).parent().removeClass("has-success has-error");
+        $(id).next("span").text(" ");
+        if ("success" == status) {
+            $("#affirm_data").attr("em_status", "success");
+            $(id).parent().addClass("has-success");
+            $(id).next("span").text(msg);
+        } else {
+            $("#affirm_data").attr("em_status", "error");
+            $(id).parent().addClass("has-error");
+            $(id).next("span").text(msg);
+        }
+    }
+
+    /*邮箱验证*/
+    $("#email_input").blur(function () {
+        var dec = $("#email_input").val();
+        var regDec = /^([a-zA-Z0-9_\\.-]+)@([\\da-zA-Z0-9\\.-]+)\.([a-zA-Z\\.]{2,6})$/;
+        if (dec.length == 0) {
+            $("#email_input").next("span").text("邮箱不能为空");
+            return false;
+        }
+        else if (!regDec.test(dec)) {
+            show_form_varify("#email_input", "error", "邮箱格式不正确，例如11@qq.com");
+            return false;
+        } else {
+            show_form_varify("#email_input", "success", "");
+        }
+    });
+    /*firstNmae验证*/
+    $("#firstNmae_input").blur(function () {
+        var dec = $("#firstNmae_input").val();
+        var regDec = /(^[a-zA-Z_-]{1,16}$)/;
+        if (dec.length == 0) {
+            $("#firstNmae_input").next("span").text("firstName不能为空！");
+            return false;
+        }
+        else if (!regDec.test(dec)) {
+            show_form_varify("#firstNmae_input", "error", "firstNmae不能为中文");
+            return false;
+        } else {
+            show_form_varify("#firstNmae_input", "success", "");
+        }
+    });
+    /*lastName验证*/
+    $("#lastName_input").blur(function () {
+        var dec = $("#lastName_input").val();
+        var regDec = /(^[a-zA-Z_-]{1,16}$)/;
+        if (dec.length == 0) {
+            $("#lastName_input").next("span").text("lastName不能为空！");
+            return false;
+        }
+        else if (!regDec.test(dec)) {
+            show_form_varify("#lastName_input", "error", "lastName_input不能为中文");
+            return false;
+        } else {
+            show_form_varify("#lastName_input", "success", "");
+        }
+    });
+
+    /*验证输入框不能为空值*/
+    function textEmpy(tey) {
+        console.log($(tey).val().length);
+        if (($(tey).val().length == 0)) {
+            return false;
+        }
+    }
+
+    /*点击保存*/
+    $("#affirm_data").click(function () {
+        if ((textEmpy("#firstNmae_input")) == false) {
+            $("#firstNmae_input").next("span").text("firstName不能为空！");
+            return false;
+        }
+        if ((textEmpy("#lastName_input")) == false) {
+            $("#lastName_input").next("span").text("lastName不能为空！");
+            return false;
+        }
+        if ((textEmpy("#email_input")) == false) {
+            $("#email_input").next("span").text("邮箱不能为空");
+            return false;
+        }
+        if ($("#affirm_data").attr("em_status") == "error") {
+            return false;
+        }
+        $.ajax({
+            url: "./cust/add",
+            type: "POST",
+            data: $("#filmModal form").serialize(),
+            success: function (result) {
+                if (result.code == 100) {
+                    $("#filmModal").modal('hide');
+                    to_page(totalAll);
+                }
+
+            }
+        })
+    });
+
+    /*点击新增清除所有样式*/
+    function clean(ele) {
+        $(ele)[0].reset();
+        $(ele).find("*").removeClass("has-success has-error");
+        $(ele).find(".help-block").text(" ")
+    }
+
+    /*点击编辑根据id查询customer数据填入模态框*/
+    function selcetFilm(id) {
+        $.ajax({
+            url: "./cust/findId/" + id,
+            type: "GET",
+            success: function (result) {
+                $("#update_firstName_input").val(result.map.selectCust.firstName);
+                $("#update_lasttName_input").val(result.map.selectCust.lastName);
+                $("#update_email_input").val(result.map.selectCust.email);
+            }
+        })
+    }
+
+    /*点击编辑按钮*/
+    $(document).on("click", ".edit_btn", function () {
+        clean("#updateModal form");
+        selcetFilm($(this).attr("edit_id"));
+        getLanguage("#update_id");
+        /*添加edit_id添加到按钮*/
+        $("#update_btn").attr("edit_id", $(this).attr("edit_id"));
+        $('#updateModal').modal({
+            backdrop: "static"
+        })
+    });
+    /*点击更新按钮*/
+    $("#update_btn").click(function () {
+        /*校验*/
+        var dec = $("#update_email_input").val();
+        var regDec = /^([a-z0-9_\\.-]+)@([\da-z\\.-]+)\.([a-z\\.]{2,6})$/;
+        if (!regDec.test(dec)) {
+            show_form_varify("#update_email_input", "error", "邮箱错误,格式例如例如11@qq.com");
+            return false;
+        } else {
+            show_form_varify("#update_email_input", "success", "");
+        }
+        /*ajax请求*/
+        $.ajax({
+            url: "./cust/edit/" + $(this).attr("edit_id"),
+            type: "PUT",
+            data: $("#updateModal form").serialize(),
+            success: function (result) {
+                $("#updateModal").modal('hide');
+                to_page(current);
+            }
+        })
+    });
+    /*点击删除按钮*/
+    $(document).on("click", ".delete_btn", function () {
+        /*先获取当前行第二列的数据并是否要删除，是否删除*/
+        var titleName = $(this).parents("tr").find("td").eq(1).text();
+        var filmId = $(this).attr("delete_id");
+        if (confirm("确定要删除【 " + titleName + " 】数据？")) {
+            $.ajax({
+                url: "./cust/delete/" + filmId,
+                type: "DELETE",
+                success: function (result) {
+                    to_page(current);
+                }
+            })
+        }
+
+    });
+    /*复选框选中所有事件*/
+    $(".check_alls").click(function () {
+        /*点击全部选中,子checkBox也全部选中*/
+        $(".checkbox_id").prop("checked", $(".check_alls").prop("checked"));
+    });
+    /*当子checkBox全部选中时，父的checkBox也全部选中*/
+    $(document).on("click", ".checkbox_id", function () {
+        /*选中的checkBox数量等于总的chekBox数量*/
+        var flag = $(".checkbox_id:checked").length == $(".checkbox_id").length;
+        $(".check_alls").prop("checked", flag);
+    });
+    /*点击全部删除按钮删除选中的多条数据*/
+    $("#delete_alls_btn").click(function () {
+        var check_list = $(".checkbox_id:checked");
+        var checkName = "";
+        var delete_id = "";
+        /*遍历cehckBox上对应的值*/
+        $.each(check_list, function () {
+            checkName += $(this).parents("tr").find("td").eq(1).text() + ",";
+            delete_id += $(this).parents("tr").find("td:eq(5)").text() + "-";
+        });
+        /*去除多余的逗号*/
+        var checkName_list = checkName.substring(0, checkName.length - 1);
+        var delete_id_list = delete_id.substring(0, delete_id.length - 1);
+        /*如果确认发送ajax请求*/
+        if (confirm("确定要删除【 " + checkName_list + " 】这些数据?")) {
+            $.ajax({
+                url: "./cust/delete/" + delete_id_list,
+                type: "DELETE",
+                success: function (result) {
+                    to_page(current);
+                }
+            })
+
+        }
+    });
+    /*退出*/
+    $("#exit").click(function () {
+        if (window.confirm("确定要退出?")) {
+            $.ajax({
+                url: "./cust/exit",
+                success: function (result) {
+                    if (result.code == 100) {
+                        window.location.href = "login.html";
+                    }
+                }
+            })
+        }
+    })
+</script>
+</html>
