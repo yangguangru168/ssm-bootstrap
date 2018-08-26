@@ -1,10 +1,20 @@
+### 销售管理系统的实现
 
-
-
-
-
-
-
+#### 环境配置
+1. 开发工具idea2018，数据库mysql5.6
+2. 数据库的配置在resources文件夹中jdbc.properties外置文件中
+```
+    jdbc.driver=com.mysql.jdbc.Driver
+    jdbc.url=jdbc:mysql://127.0.0.1:3306/sakila
+    jdbc.username=root
+    jdbc.password=123456
+```
+#### 数据格式 
+        接口返回的数据为json格式，其格式为{code:"",msg:"",map:""}
+        1.code:返回值，如果code = 100 ,则为ture. code = 200,则为false.
+        2.msg:成功或失败的信息。
+        3.map:返回前段的数据 
+    
 #### 实现的功能
 ##### 1. 拒绝未登录用户进入系统功能
     对于未登录的用户，直接访问`success.html`页面是不允许的，如果强行访问则会被跳转回登录界面，进行登录操作。
