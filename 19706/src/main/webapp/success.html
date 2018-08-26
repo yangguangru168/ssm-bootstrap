@@ -15,9 +15,9 @@
         <div class="navbar-header">
             <a href="#" style="color: white" class="navbar-brand" id="usermeValue"></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse" style="margin-left: 1050px">
+        <div id="navbar" class="collapse navbar-collapse "  style="margin-left: 1050px">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#" id="exit" style="font-size: 15px">退出</a></li>
+                <li class="active"><a href="#" id="exit"class="glyphicon glyphicon-user" style="font-size: 15px"> 退出</a></li>
             </ul>
         </div>
     </div>
@@ -214,6 +214,7 @@
 
     /*主页面数据加载*/
     function to_page(pn) {
+        $(".check_alls").prop("checked",false)
         $.ajax({
             url: "./cust/find",
             data: "pn=" + pn,
@@ -256,8 +257,8 @@
     function page_info(result) {
         $("#page_info_area").empty();
         $("#page_info_area").append
-        ("当前" + result.map.customer.pageNum + "页" + "," +
-            "总共" + result.map.customer.pages + "有页" + "," + "有" + result.map.customer.total + "条记录");
+        ("当前是第" + result.map.customer.pageNum + "页" + "," +
+            "总共有" + result.map.customer.pages + "页" + "," + "总记录有" + result.map.customer.total + "条");
         totalAll = result.map.customer.total;
         current = result.map.customer.pageNum;
     }
@@ -273,6 +274,7 @@
             lastPage.addClass("disabled");
         } else {
             pageFirst.click(function () {
+                $(".check_alls").prop("checked",false)
                 to_page(1);
             });
             lastPage.click(function () {
@@ -358,13 +360,13 @@
     /*邮箱验证*/
     $("#email_input").blur(function () {
         var dec = $("#email_input").val();
-        var regDec = /^([a-zA-Z0-9_\\.-]+)@([\\da-zA-Z0-9\\.-]+)\.([a-zA-Z\\.]{2,6})$/;
+        var regDec = /^([\\da-zA-Z0-9\\.-]+)\.([a-zA-Z0-9_\\.-]+)@([\\da-zA-Z0-9\\.-]+)\.([a-z\\.]{2,6})$/;
         if (dec.length == 0) {
-            $("#email_input").next("span").text("邮箱不能为空");
+            $("#email_input").next("span").text("邮箱不能为空").css("color", "red");
             return false;
         }
         else if (!regDec.test(dec)) {
-            show_form_varify("#email_input", "error", "邮箱格式不正确，例如11@qq.com");
+            show_form_varify("#email_input", "error", "邮箱格式不正确，例如Aa1.Aa1@11qq.com");
             return false;
         } else {
             show_form_varify("#email_input", "success", "");
@@ -375,11 +377,11 @@
         var dec = $("#firstNmae_input").val();
         var regDec = /(^[a-zA-Z_-]{1,16}$)/;
         if (dec.length == 0) {
-            $("#firstNmae_input").next("span").text("firstName不能为空！");
+            $("#firstNmae_input").next("span").text("firstName不能为空").css("color", "red");
             return false;
         }
         else if (!regDec.test(dec)) {
-            show_form_varify("#firstNmae_input", "error", "firstNmae不能为中文");
+            show_form_varify("#firstNmae_input", "error", "firstNmae不能为中文或数字");
             return false;
         } else {
             show_form_varify("#firstNmae_input", "success", "");
@@ -390,37 +392,34 @@
         var dec = $("#lastName_input").val();
         var regDec = /(^[a-zA-Z_-]{1,16}$)/;
         if (dec.length == 0) {
-            $("#lastName_input").next("span").text("lastName不能为空！");
+            $("#lastName_input").next("span").text("lastName不能为空！").css("color", "red");
             return false;
         }
         else if (!regDec.test(dec)) {
-            show_form_varify("#lastName_input", "error", "lastName_input不能为中文");
+            show_form_varify("#lastName_input", "error", "lastName_input不能为中文或数字");
             return false;
         } else {
             show_form_varify("#lastName_input", "success", "");
         }
     });
-
     /*验证输入框不能为空值*/
     function textEmpy(tey) {
-        console.log($(tey).val().length);
-        if (($(tey).val().length == 0)) {
+        if (($(tey).val().length === 0)) {
             return false;
         }
     }
-
     /*点击保存*/
     $("#affirm_data").click(function () {
-        if ((textEmpy("#firstNmae_input")) == false) {
-            $("#firstNmae_input").next("span").text("firstName不能为空！");
+        if ((textEmpy("#firstNmae_input")) === false) {
+            $("#firstNmae_input").next("span").text("firstName不能为空！").css("color", "red");
             return false;
         }
-        if ((textEmpy("#lastName_input")) == false) {
-            $("#lastName_input").next("span").text("lastName不能为空！");
+        if ((textEmpy("#lastName_input")) === false) {
+            $("#lastName_input").next("span").text("lastName不能为空！").css("color", "red");
             return false;
         }
-        if ((textEmpy("#email_input")) == false) {
-            $("#email_input").next("span").text("邮箱不能为空");
+        if ((textEmpy("#email_input")) === false) {
+            $("#email_input").next("span").text("邮箱不能为空").css("color", "red");
             return false;
         }
         if ($("#affirm_data").attr("em_status") == "error") {
@@ -439,14 +438,12 @@
             }
         })
     });
-
     /*点击新增清除所有样式*/
     function clean(ele) {
         $(ele)[0].reset();
         $(ele).find("*").removeClass("has-success has-error");
         $(ele).find(".help-block").text(" ")
     }
-
     /*点击编辑根据id查询customer数据填入模态框*/
     function selcetFilm(id) {
         $.ajax({
@@ -459,7 +456,6 @@
             }
         })
     }
-
     /*点击编辑按钮*/
     $(document).on("click", ".edit_btn", function () {
         clean("#updateModal form");
@@ -471,11 +467,68 @@
             backdrop: "static"
         })
     });
+
+    /*update邮箱验证*/
+    $("#update_email_input").blur(function () {
+        var dec = $(this).val();
+        var regDec = /^([\\da-zA-Z0-9\\.-]+)\.([a-zA-Z0-9_\\.-]+)@([\\da-zA-Z0-9\\.-]+)\.([a-z\\.]{2,6})$/;
+        if (dec.length === 0) {
+            $(this).next("span").text("邮箱不能为空").css("color", "red");
+            return false;
+        }
+        else if (!regDec.test(dec)) {
+            show_form_varify("#update_email_input", "error", "邮箱格式不正确，例如Aa1.Aa1@11qq.com");
+            return false;
+        } else {
+            show_form_varify("#update_email_input", "success", "");
+        }
+    });
+    /*更新firstNmae验证*/
+    $("#update_firstName_input").blur(function () {
+        var dec = $(this).val();
+        var regDec = /(^[a-zA-Z_-]{1,16}$)/;
+        if (dec.length == 0) {
+            $(this).next("span").text("firstName不能为空").css("color", "red");
+            return false;
+        }
+        else if (!regDec.test(dec)) {
+            show_form_varify("#update_firstName_input", "error", "firstNmae不能为中文或数字");
+            return false;
+        } else {
+            show_form_varify("#update_firstName_input", "success", "");
+        }
+    });
+    /*更新lastName验证*/
+    $("#update_lasttName_input").blur(function () {
+        var dec = $(this).val();
+        var regDec = /(^[a-zA-Z_-]{1,16}$)/;
+        if (dec.length === 0) {
+            $(this).next("span").text("lastName不能为空！").css("color", "red");
+            return false;
+        }
+        else if (!regDec.test(dec)) {
+            show_form_varify("#update_lasttName_input", "error", "lastName_input不能为中文或数字");
+            return false;
+        } else {
+            show_form_varify("#update_lasttName_input", "success", "");
+        }
+    });
     /*点击更新按钮*/
     $("#update_btn").click(function () {
-        /*校验*/
+        if ((textEmpy("#update_firstName_input")) === false) {
+            $("#update_firstName_input").next("span").text("firstName不能为空！").css("color", "red");
+            return false;
+        }
+        if ((textEmpy("#update_lasttName_input")) === false) {
+            $("#update_lasttName_input").next("span").text("lastName不能为空！").css("color", "red");
+            return false;
+        }
+        if ((textEmpy("#update_email_input")) === false) {
+            $("#update_email_input").next("span").text("邮箱不能为空").css("color", "red");
+            return false;
+        }
         var dec = $("#update_email_input").val();
-        var regDec = /^([a-z0-9_\\.-]+)@([\da-z\\.-]+)\.([a-z\\.]{2,6})$/;
+        var regDec = /^([\\da-zA-Z0-9\\.-]+)\.([a-zA-Z0-9_\\.-]+)@([\\da-zA-Z0-9\\.-]+)\.([a-z\\.]{2,6})$/;
         if (!regDec.test(dec)) {
             show_form_varify("#update_email_input", "error", "邮箱错误,格式例如例如11@qq.com");
             return false;
@@ -517,7 +570,7 @@
     /*当子checkBox全部选中时，父的checkBox也全部选中*/
     $(document).on("click", ".checkbox_id", function () {
         /*选中的checkBox数量等于总的chekBox数量*/
-        var flag = $(".checkbox_id:checked").length == $(".checkbox_id").length;
+        var flag = $(".checkbox_id:checked").length === $(".checkbox_id").length;
         $(".check_alls").prop("checked", flag);
     });
     /*点击全部删除按钮删除选中的多条数据*/
@@ -527,12 +580,17 @@
         var delete_id = "";
         /*遍历cehckBox上对应的值*/
         $.each(check_list, function () {
-            checkName += $(this).parents("tr").find("td").eq(1).text() + ",";
-            delete_id += $(this).parents("tr").find("td:eq(5)").text() + "-";
+            checkName += $(this).parents("tr").find("td").eq(1).text() + ",";//获取所有行第一例数据
+            delete_id += $(this).parents("tr").find("td:eq(5)").text() + "-";//获取所有行第五例数据
         });
         /*去除多余的逗号*/
         var checkName_list = checkName.substring(0, checkName.length - 1);
         var delete_id_list = delete_id.substring(0, delete_id.length - 1);
+        /*如果没有选择任何一条记录删除时提示*/
+        if($(".checkbox_id:checked").length === 0){
+            confirm("请选择要删除的数据");
+            return false;
+        }
         /*如果确认发送ajax请求*/
         if (confirm("确定要删除【 " + checkName_list + " 】这些数据?")) {
             $.ajax({
@@ -542,7 +600,10 @@
                     to_page(current);
                 }
             })
-
+        }
+        else {
+            $(".checkbox_id").prop("checked",false);
+            $(".check_alls").prop("checked",false)
         }
     });
     /*退出*/

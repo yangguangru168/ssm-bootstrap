@@ -50,10 +50,14 @@
 <script>
     /*登陆校验*/
     $("#username_id").blur(function () {
-        var userNm = $("#username_id").val();
-        var regNm = /^[a-zA-Z0-9_-]{1,15}$/;
+        var userNm = $(this).val();
+        var regNm = /^[a-zA-Z-]{1,16}$/;
+        if ($(this).val().length === 0) {
+            textEmpy("#username_id","用户名不能为空");
+            return false;
+        }
         if (!regNm.test(userNm)) {
-            $(this).next("span").text("2-4位中文字符");
+            $(this).next("span").text("用户名不能为中文和数字").css("color","red");
             $(".login-btn").attr("lo-vg", "error");
             return false;
         } else {
@@ -62,10 +66,14 @@
         }
     });
     $("#password_id").blur(function () {
-        var userNm = $("#password_id").val();
-        var regNm = /^[a-zA-Z0-9_-]{1,18}$/;
+        var userNm = $(this).val();
+        var regNm = /^[a-zA-Z-]{1,16}$/;
+        if ($(this).val().length === 0) {
+            textEmpy("#password_id","密码不能为空");
+            return false;
+        }
         if (!regNm.test(userNm)) {
-            $(this).next("span").text("密码必须6-18位");
+            $(this).next("span").text("密码不能为中文和数字").css("color","red");
             $(".login-btn").attr("lo-vg", "error");
             return false;
         } else {
@@ -73,9 +81,20 @@
             $(this).next("span").empty();
         }
     });
-
+    /*判断是否为空*/
+    function textEmpy(id , txt) {
+        $(id).next("span").text(txt).css("color","red");
+    }
     $(".login-btn").click(function () {
-        if ($(this).attr("lo-vg") == "error") {
+        if ($("#username_id").val().length === 0) {
+            textEmpy("#username_id","用户名不能为空");
+            return false;
+        }
+        if ($("#password_id").val().length === 0) {
+            textEmpy("#password_id","密码不能为空");
+            return false;
+        }
+        if ($(this).attr("lo-vg") === "error") {
             return false;
         }
         $.ajax({
@@ -83,14 +102,14 @@
             type: "GET",
             data: $(".am-form").serialize(),
             success: function (result) {
-                if (result.code == 100) {
+                if (result.code === 100) {
                     window.location.href = "success.html?username=" + $("#username_id").val()
                 } else {
                     if (result.map.user) {
                         $("#user_span").text("用户名不存在");
                     }
                     else {
-                        $("#pwd_span").text("密码错误");
+                        $("#pwd_span").text("密码错误").css("color","red");
                     }
                 }
             }

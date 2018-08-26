@@ -29,7 +29,7 @@
     </select>
 
     <select id="customerUpdate" parameterType="com.hand.entity.Customer">
-        update customer set first_name =#{firstName},last_name = #{lastName},last_update = #{lastUpdate}
+        update customer set first_name =#{firstName},last_name = #{lastName},email = #{email},address_id = #{addressId},last_update = #{lastUpdate}
          where customer_id = #{customerId}
     </select>
 
