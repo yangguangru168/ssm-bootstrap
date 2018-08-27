@@ -38,7 +38,9 @@
     </select>
 
     <select id="customerDelete" parameterType="String">
-        delete from customer where customer_id = #{customerId}
+        delete from rental where customer_id = #{customerId};
+        delete from payment where customer_id = #{customerId};
+        delete from customer where customer_id = #{customerId};
     </select>
 
 </mapper>
